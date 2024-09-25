@@ -1,0 +1,56 @@
+.h1
+    @apply text-center text-xl mb-3
+.header
+    @apply grid grid-cols-2 gap-5
+.list
+    @apply flex flex-col gap-3
+    .el 
+        @apply flex items-center gap-3
+.stack
+    width: 650px
+    @media screen and (max-width: 680px)
+        width: 600px
+    @media screen and (max-width: 600px)
+        width: 550px
+    @media screen and (max-width: 560px)
+        width: 500px
+.cart
+    width: 125px
+    @media screen and (max-width: 680px)
+        width: 115px
+    @media screen and (max-width: 600px)
+        width: 95px
+    @media screen and (max-width: 560px)
+        width: 80px
+.img
+    width: 80px
+    // height: 100%
+    @media screen and (max-width: 600px)
+        width: 75px
+    @media screen and (max-width: 560px)
+        width: 68px
+.stack
+    @apply grid grid-cols-2 text-center mx-auto
+    div
+        ul
+            @apply grid grid-cols-2
+            li
+                @apply flex justify-center relative
+                a
+                    @apply border rounded-lg flex justify-center shadow-lg hover:bg-slate-100 hover:border-slate-300 transition
+                    padding-top: 30px
+                    padding-bottom: 30px
+                    margin: 15px 0 15px 0
+                    @media screen and (max-width: 560px)
+                        padding-top: 20px
+                        padding-bottom: 20px
+                        // margin: 10px
+    // .back
+    //     @apply ml-auto
+.desc
+    @apply block absolute -top-2 text-slate-500 
+    font-size: 15px
+.arr
+    @apply flex flex-wrap gap-5 justify-center mt-5 max-w-[900px] mx-auto
+.arrLi
+    @apply py-1 px-2 rounded-xl

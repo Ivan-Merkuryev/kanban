@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())@map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name  String
+  email String @unique
+  password String
+  department Department
+  ReportTask ReportTask[]
+  // ReportUser ReportUser[]
+  role Role @default(ADMIN)
+  tasks Task[]
+  rating Float @default(0)
+  @@map("user")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Task {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())@map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title String
+  description String
+  department Department[]
+  author User @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+  deadline DateTime @default(now())
+  ReportTask ReportTask[]
+  
+  reserve Boolean @default(false)
+  whoReserved String @map("who_reserved") @default("")
+  done Boolean @default(false)
+  whoDone String @map("who_done") @default("")
+
+  @@map("task")
+}
+
+enum Department {
+  DEVELOPMENT
+  TESTING
+  MANAGEMENT
+  INFRASTRUCTURE
+  SECURITY
+  ANALYTICS
+  SUPPORT
+  DESIGN
+  MARKETING
+}
+
+model ReportTask {
+  id String @id @default(cuid())
+  text String
+  task Task @relation(fields: [taskId], references: [id])
+  taskId String @map("task_id")
+  user User @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+  grade Int?
+
+  @@map("report_task")
+}
+// model ReportUser {
+//   id String @id @default(cuid())
+//   text String
+//   grade Int
+//   // task Task @relation(fields: [taskId], references: [id])
+//   reportTaskId String @map("report_task_id")
+//   report ReportTask @relation(fields: [reportTaskId], references: [id])
+//   // taskId String @map("task_id")
+//   user User @relation(fields: [userId], references: [id])
+//   userId String @map("user_id")
+
+//   @@map("report_user")
+// }

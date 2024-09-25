@@ -1,0 +1,24 @@
+.task
+    @apply border-solid border border-gray-300 rounded-lg p-2 mb-5
+    .headerTask
+        @apply flex space-x-4 mr-0 justify-between
+        a
+            @apply flex
+            p
+                @apply text-lg whitespace-nowrap overflow-hidden truncate
+        .flexx
+            @apply flex items-center
+    h3
+        @apply text-xl whitespace-nowrap overflow-hidden truncate text-left my-2
+    .date
+        @apply text-black/60 flex justify-end
+    .description
+        @apply line-clamp-3 overflow-hidden my-2 h-auto hyphens-auto
+    .department 
+        @apply flex my-2
+        p
+            @apply my-1 mr-1
+    .header
+        @apply flex w-full justify-between
+.borderRed
+    @apply border-red-600
