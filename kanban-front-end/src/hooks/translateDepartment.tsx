@@ -1,4 +1,8 @@
-import { IOption } from "@/app/components/ui/Select";
+interface IOption {
+  value: string;
+  label: string;
+  color: string;
+}
 
 const departmentTranslations: IOption[] = [
   { value: "DEVELOPMENT", label: "разработка", color: "#00B8D9" },
