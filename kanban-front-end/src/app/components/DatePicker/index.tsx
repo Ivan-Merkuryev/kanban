@@ -4,8 +4,7 @@ import styles from "./DatePicker.module.sass";
 import { useEffect, useState } from "react";
 import { format, addMonths, setHours, setMinutes } from "date-fns";
 import { ru } from "date-fns/locale";
-
-import { DayPicker } from "react-day-picker";
+import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
 import { useOutside } from "@/hooks/useOutside";
 import "react-day-picker/dist/style.css";
 
@@ -15,16 +14,21 @@ export function DatePicker({ onChange, error, isSubmitted }: any) {
   const sixMonthsAhead = addMonths(today, 6);
   const [selected, setSelected] = useState<Date>();
   const { isShow, setIsShow, ref } = useOutside(false);
-  const handleSelectDate = (date: Date) => {
-    setSelected(date);
-    const newDate = setHours(setMinutes(date, 59), 23);
-    onChange(newDate);
-    setIsShow(false);
+
+  const handleSelectDate: SelectSingleEventHandler = (day) => {
+    if (day) {
+      setSelected(day);
+      const newDate = setHours(setMinutes(day, 59), 23);
+      onChange(newDate);
+      setIsShow(false);
+    }
   };
+
   let footer;
   if (selected) {
     footer = <p>{format(selected, "d MMM", { locale: ru })}</p>;
   }
+
   useEffect(() => {
     if (isSubmitted) {
       setSelected(undefined);
@@ -37,7 +41,6 @@ export function DatePicker({ onChange, error, isSubmitted }: any) {
       <button
         type="button"
         className={`${styles.button} ${error ? `${styles.button} ${styles.buttonErr}` : ""}`}
-        // className={styles.button}
         onClick={() => setIsShow(!isShow)}
       >
         {footer}

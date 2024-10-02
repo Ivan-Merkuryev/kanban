@@ -1,15 +1,15 @@
 "use client";
 
-import styles from './Create.module.sass'
+import styles from "./Create.module.sass";
 import { DatePicker } from "@/app/components/DatePicker";
 import { Field } from "@/app/components/ui/fields/Field";
-import { SubmitHandler, useForm, Resolver, Controller } from "react-hook-form";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import { Button } from "@/app/components/ui/buttons/Button";
 import type { TypeTaskFormState } from "@/types/task.types";
 import { taskService } from "@/services/task.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { MySelect } from "@/app/components/ui/Select";
+import { MySelect } from "./Select";
 import { useState } from "react";
 
 export function Create() {
@@ -18,7 +18,6 @@ export function Create() {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
     control,
   } = useForm<TypeTaskFormState>({
     mode: "onChange",
@@ -44,10 +43,7 @@ export function Create() {
 
   return (
     <>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Field
           id="title"
           label="Title:"
@@ -76,9 +72,9 @@ export function Create() {
           rules={{
             required: "Отдел обязателен!",
           }}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
+          render={({ field: { onChange }, fieldState: { error } }) => (
             <div className="m-4">
-              <MySelect onChange={onChange} value={value} error={error} />
+             <MySelect onChange={onChange} error={error} isSubmitted={isSubmitted}/>
             </div>
           )}
         />

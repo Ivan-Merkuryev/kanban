@@ -8,6 +8,7 @@ import { errorCatch } from "./error";
 import { authService } from "@/services/auth.service";
 
 const options: CreateAxiosDefaults = {
+  // baseURL: "/api",
   baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
@@ -51,4 +52,4 @@ axiosWithAuth.interceptors.response.use(
   }
 );
 
-export { axiosClassic, axiosWithAuth }
+export { axiosClassic, axiosWithAuth };

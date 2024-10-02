@@ -26,7 +26,7 @@ export function Auth() {
   });
 
   const [isLoginForm, setIsLoginForm] = useState(true);
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { push } = useRouter();
 
   const { mutate } = useMutation({
@@ -50,7 +50,9 @@ export function Auth() {
 
   const onSubmit: SubmitHandler<ISingUpForm> = (data) => {
     mutate(data);
+
     reset();
+    setIsSubmitted(true);
   };
 
   return (
@@ -93,6 +95,7 @@ export function Auth() {
                       onChange={onChange}
                       value={value}
                       error={error}
+                      isSubmitted={isSubmitted}
                     />
                   </div>
                 )}

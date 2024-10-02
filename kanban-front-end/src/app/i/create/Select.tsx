@@ -1,8 +1,10 @@
 "use client";
 
-import styles from "@/app/auth/Auth.module.sass";
+import styles from "./Create.module.sass";
 import { useEffect, useState } from "react";
 import cn from "clsx";
+
+import Switch from "@mui/material/Switch";
 
 const options = [
   { value: "DEVELOPMENT", label: "разработка", color: "#00B8D9" },
@@ -16,71 +18,67 @@ const options = [
   { value: "MARKETING", label: "маркетинг", color: "#666666" },
 ];
 
-interface IOption {
-  value: string;
-  label: string;
-  color: string;
-}
-
-export function OneSelect({ onChange, error, isSubmitted }: any) {
+export function MySelect({ onChange, error, isSubmitted }: any) {
   const [isShow, setIsShow] = useState(false);
 
-  const [myOption, setMyOption] = useState<IOption | undefined>(undefined);
-  const availableOptions = options.filter((el) => el !== myOption);
+  const defaultOpt = options[0];
+  const [myOptions, setMyOptions] = useState([defaultOpt]);
+  const availableOptions = options.filter((el) => el !== defaultOpt);
   const [allOptions, setAllOptions] = useState(availableOptions);
 
   const optionClick = (value: string) => {
     const obj = options.find((el) => el.value === value);
     if (obj) {
-      setMyOption(obj);
-      setIsShow(!isShow);
+      const updatedOptions = [...myOptions, obj];
+      setMyOptions(updatedOptions);
     }
   };
-  const deleteOpt = (value: string) => {
-    setMyOption(undefined);
-  };
-  useEffect(() => {
-    let newAvailableOptions;
-    if (myOption) {
-      newAvailableOptions = options.filter((el) => myOption !== el);
-    }
-    if (newAvailableOptions) {
-      setAllOptions(newAvailableOptions);
-    }
-  }, [myOption]);
 
-  useEffect(() => {
-    if (myOption) {
-      const value = myOption.value;
-      onChange(value);
-    }
-  }, [allOptions]);
+  const deleteOpt = (value: string) => {
+    const updatedOptions = myOptions.filter((option) => option.value !== value);
+    setMyOptions(updatedOptions);
+  };
 
   useEffect(() => {
     if (isSubmitted) {
-      setMyOption(undefined);
+      setMyOptions([defaultOpt]);
     }
   }, [isSubmitted]);
 
+  useEffect(() => {
+    const newAvailableOptions = options.filter((el) => !myOptions.includes(el));
+    setAllOptions(newAvailableOptions);
+  }, [myOptions]);
+
+  useEffect(() => {
+    const arr: string[] = [];
+    const arrData = myOptions.map((el) => {
+      arr.push(el.value);
+      return el.value;
+    });
+    onChange(arrData);
+  }, [allOptions]);
   return (
     <div>
-      <div
-        onClick={() => setIsShow(!isShow)}
-        className={cn(styles.select, error && styles.err)}
-      >
-        {myOption ? (
-          <button
-            value={myOption.value}
-            onClick={() => deleteOpt(myOption.value)}
-            type="button"
-            style={{ color: `${myOption.color}` }}
-            className={styles.btn}
-          >
-            {myOption.label}
-          </button>
-        ) : (
-          <p className={styles.placeholder}>departament:</p>
-        )}
+      <div className={cn(styles.select, error && styles.err)}>
+        <div className={styles.options}>
+          {myOptions.map((el, index) => (
+            <button
+              key={index}
+              value={el.value}
+              onClick={() => deleteOpt(el.value)}
+              type="button"
+              style={{ color: `${el.color}` }}
+              className={styles.btn}
+            >
+              {el.label}
+            </button>
+          ))}
+        </div>
+
+        <div className={styles.switch}>
+          <Switch checked={isShow} onChange={() => setIsShow(!isShow)} />
+        </div>
       </div>
       {isShow && (
         <div className={styles.options}>

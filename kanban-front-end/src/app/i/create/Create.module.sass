@@ -1,10 +1,22 @@
 .form
-    @apply py-8 w-1/3 border p-1 rounded-lg mx-auto mt-8
+    @apply py-8 w-[500px] border p-1 rounded-lg mx-auto mt-8
 .inputErr
     @apply border-red-600  placeholder:text-red-600 
 @media screen and (max-width: 900px)
     .form
-        @apply w-[350px]
+        @apply w-[500px]
 @media screen and (max-width: 360px)
     .form
         @apply w-[305px]
+
+
+.select
+    @apply flex relative  min-h-[44px] flex-wrap w-full items-center overflow-visible rounded-lg border bg-white/0 outline-none placeholder:text-black/30 duration-500 transition-colors
+.options
+    @apply mr-5
+.btn
+    @apply rounded-lg  bg-transparent border py-1 px-2 m-1 text-base font-medium text-black
+.switch
+    @apply absolute right-0
+.err
+    @apply border-red-600  placeholder:text-red-600 
