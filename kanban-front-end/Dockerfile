@@ -1,7 +1,7 @@
 FROM node:20-alpine as build
 
-COPY package.json package.json
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci --frozen-lockfile
 COPY . .
 
 RUN npm run build
