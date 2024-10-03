@@ -1,21 +1,17 @@
 FROM node:20-alpine as build
-
 WORKDIR /kanban-front-end
 COPY package.json package-lock.json ./
 RUN npm ci --frozen-lockfile
 
 COPY . .
-COPY --from=dependencies /kanban-front-end/node_modules ./node_modules
-RUN yarn build
+RUN npm run build
 
-COPY --from=builder /kanban-front-end/public ./public
-COPY --from=builder /kanban-front-end/package.json ./package.json
-COPY --from=builder /kanban-front-end/.next ./.next
-COPY --from=builder /kanban-front-end/node_modules ./node_modules
-
+FROM nginx:alpine
+COPY --from=build /kanban-front-end/public /usr/share/nginx/html
+COPY --from=build /kanban-front-end/.next /usr/share/nginx/html/.next
 EXPOSE 3000
-
-CMD ["nginx", "-g", "daemon off;"]
+HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=3 CMD curl --fail http://localhost:3000
+CMD ["nginx", "-g", "daemon off;"] 
 
 # WORKDIR /kanban-front-end
 
