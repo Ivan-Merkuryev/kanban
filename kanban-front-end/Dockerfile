@@ -8,10 +8,6 @@ COPY . .
 COPY --from=dependencies /kanban-front-end/node_modules ./node_modules
 RUN yarn build
 
-FROM node:lts as runner
-WORKDIR /<имя проекта>
-ENV NODE_ENV production
-
 COPY --from=builder /kanban-front-end/public ./public
 COPY --from=builder /kanban-front-end/package.json ./package.json
 COPY --from=builder /kanban-front-end/.next ./.next
