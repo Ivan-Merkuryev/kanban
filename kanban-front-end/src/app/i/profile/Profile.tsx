@@ -20,37 +20,10 @@ export function Profile() {
   const { data: tasksData, isLoading: tasksIsLoading } = useTasksForMe();
   const { data: userData, isLoading: userIsLoading } = useProfile();
 
-  const [allTasks, setAllTasks] = useState(
-    localStorage.getItem("allTasks") === "true" || false
-  );
-  const [myTasks, setMyTasks] = useState(
-    localStorage.getItem("myTasks") === "true" || false
-  );
-  const [myReservedTasks, setMyReservedTasks] = useState(
-    localStorage.getItem("myReservedTasks") === "true" || false
-  );
-  const [completed, setCompleted] = useState(
-    localStorage.getItem("completed") === "true" || false
-  );
-
-  useEffect(() => {
-    localStorage.setItem("allTasks", JSON.stringify(allTasks));
-    localStorage.setItem("myTasks", JSON.stringify(myTasks));
-    localStorage.setItem("myReservedTasks", JSON.stringify(myReservedTasks));
-    localStorage.setItem("completed", JSON.stringify(completed));
-  }, [allTasks, myTasks, completed, myReservedTasks]);
-
-  useEffect(() => {
-    if (
-      localStorage.getItem("allTasks") === "false" &&
-      localStorage.getItem("myTasks") === "false" &&
-      localStorage.getItem("myReservedTasks") === "false" &&
-      localStorage.getItem("completed") === "false"
-    ) {
-      localStorage.setItem("allTasks", JSON.stringify(true));
-      setAllTasks(true);
-    }
-  }, [allTasks, myTasks, completed, myReservedTasks]);
+  const [allTasks, setAllTasks] = useState(true);
+  const [myTasks, setMyTasks] = useState(false);
+  const [myReservedTasks, setMyReservedTasks] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   const ThereAreNoTasks =
     tasksData?.data.newTasks.length === 0 &&
