@@ -13,7 +13,6 @@ ENV JWT_SECRET=${JWT_SECRET}
 ENV DATABASE_URL=${DATABASE_URL}
 
 RUN npm run build
-
 CMD ["npm", "run", "build"]
 
 
