@@ -9,8 +9,8 @@ RUN npm run build
 FROM nginx:alpine
 COPY --from=build /kanban-front-end/public /usr/share/nginx/html
 COPY --from=build /kanban-front-end/.next /usr/share/nginx/html/.next
-EXPOSE 3000
-HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=3 CMD curl --fail http://localhost:3000
+EXPOSE 80
+HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=3 CMD curl --fail http://localhost/ || exit 1
 CMD ["nginx", "-g", "daemon off;"] 
 
 # WORKDIR /kanban-front-end
