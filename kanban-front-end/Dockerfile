@@ -6,7 +6,7 @@ RUN npm ci --frozen-lockfile
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
+FROM node:20-alpine
 # COPY --from=build /dist /usr/share/nginx/html
 # COPY --from=build nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /next.config.mjs ./next.config.mjs
