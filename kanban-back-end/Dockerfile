@@ -12,5 +12,5 @@ ENV NODE_ENV=production
 ENV JWT_SECRET=${JWT_SECRET}
 ENV DATABASE_URL=${DATABASE_URL}
 
-RUN npm run start:prod
-CMD ["npm", "run", "start:prod"]
+RUN npm run build
+CMD ["npm", "run", "build"]
