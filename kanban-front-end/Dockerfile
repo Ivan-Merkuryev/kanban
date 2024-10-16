@@ -6,15 +6,16 @@ RUN npm ci --frozen-lockfile
 COPY . .
 RUN npm run build
 
-FROM node:20-alpine
+FROM nginx:alpine
 WORKDIR /app
 # COPY --from=build /dist /usr/share/nginx/html
 # COPY --from=build nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/next.config.mjs ./next.config.mjs
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=build /app/next.config.mjs ./next.config.mjs
+COPY --from=build /app/public ./public
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
+
 EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"] 
